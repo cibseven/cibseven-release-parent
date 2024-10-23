@@ -1,8 +1,8 @@
-camunda-bpm-release-parent
+cib-seven-release-parent
 ======================
 
-Pom which can be inherited for Camunda Platform releases defining some bpm release properties.
-It is a child of [camunda-release-parent](https://github.com/camunda/camunda-release-parent).
+Pom which can be inherited for CIB seven releases defining some bpm release properties.
+It is a child of [cib-release-parent](https://github.com/cibseven/cib-release-parent).
 
 License
 -------

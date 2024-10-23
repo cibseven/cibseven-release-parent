@@ -3,20 +3,19 @@
   <modelVersion>4.0.0</modelVersion>
 
   <parent>
-    <groupId>org.camunda</groupId>
-    <artifactId>camunda-release-parent</artifactId>
-    <version>3.7.2</version>
-    <!-- do not remove empty tag - http://jira.codehaus.org/browse/MNG-4687 -->
-    <relativePath />
+    <groupId>de.cib</groupId>
+    <artifactId>cib-release-parent</artifactId>
+    <version>1.0</version>
   </parent>
 
-  <artifactId>camunda-bpm-release-parent</artifactId>
-  <version>2.4.0-SNAPSHOT</version>
+
+  <artifactId>cib-seven-release-parent</artifactId>
+  <version>1.0</version>
   <packaging>pom</packaging>
-  <name>Camunda Platform - Release Parent Pom</name>
+  <name>CIB seven - Release Parent Pom</name>
 
   <description>
-    This pom defines the required plugins and profiles to allow a Camunda Platform release build.
+    This pom defines the required plugins and profiles to allow a CIB seven release build.
   </description>
 
   <properties>
@@ -237,20 +236,20 @@ limitations under the License.</license.inlineHeader>
   </licenses>
 
   <organization>
-    <name>Camunda Services GmbH</name>
-    <url>http://www.camunda.com</url>
+    <name>CIB software GmbH</name>
+    <url>https://www.cib.de/</url>
   </organization>
 
   <scm>
-    <url>https://github.com/camunda/camunda-bpm-release-parent</url>
-    <connection>scm:git:git@github.com:camunda/camunda-bpm-release-parent.git</connection>
-    <developerConnection>scm:git:git@github.com:camunda/camunda-bpm-release-parent.git</developerConnection>
+    <url>https://github.com/cibseven/cib-seven-release-parent</url>
+    <connection>scm:git:git@github.com:cibseven/cib-seven-release-parent.git</connection>
+    <developerConnection>scm:git:git@github.com:cibseven/cib-seven-release-parent.git</developerConnection>
     <tag>HEAD</tag>
   </scm>
 
   <issueManagement>
     <system>GitHub Issues</system>
-    <url>https://github.com/camunda/camunda-bpm-platform/issues</url>
+    <url>https://github.com/cibseven/cib-seven/issues</url>
   </issueManagement>
 
   <repositories>
@@ -263,9 +262,9 @@ limitations under the License.</license.inlineHeader>
       </snapshots>
     </repository>
     <repository>
-      <id>camunda-nexus</id>
-      <name>Camunda Nexus</name>
-      <url>https://artifacts.camunda.com/artifactory/internal</url>
+      <id>cib-seven-internal-repository</id>
+      <name>CIB Nexus</name>
+      <url>https://nexus.cib.de/repository/mvn-cib-seven</url>
     </repository>
   </repositories>
 
