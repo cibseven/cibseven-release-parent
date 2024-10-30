@@ -1,4 +1,4 @@
-cib-seven-release-parent
+cibseven-release-parent
 ======================
 
 Pom which can be inherited for CIB seven releases defining some bpm release properties.

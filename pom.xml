@@ -9,7 +9,7 @@
   </parent>
 
 
-  <artifactId>cib-seven-release-parent</artifactId>
+  <artifactId>cibseven-release-parent</artifactId>
   <version>1.0</version>
   <packaging>pom</packaging>
   <name>CIB seven - Release Parent Pom</name>
@@ -241,15 +241,15 @@ limitations under the License.</license.inlineHeader>
   </organization>
 
   <scm>
-    <url>https://github.com/cibseven/cib-seven-release-parent</url>
-    <connection>scm:git:git@github.com:cibseven/cib-seven-release-parent.git</connection>
-    <developerConnection>scm:git:git@github.com:cibseven/cib-seven-release-parent.git</developerConnection>
+    <url>https://github.com/cibseven/cibseven-release-parent</url>
+    <connection>scm:git:git@github.com:cibseven/cibseven-release-parent.git</connection>
+    <developerConnection>scm:git:git@github.com:cibseven/cibseven-release-parent.git</developerConnection>
     <tag>HEAD</tag>
   </scm>
 
   <issueManagement>
     <system>GitHub Issues</system>
-    <url>https://github.com/cibseven/cib-seven/issues</url>
+    <url>https://github.com/cibseven/cibseven/issues</url>
   </issueManagement>
 
   <repositories>
@@ -262,9 +262,9 @@ limitations under the License.</license.inlineHeader>
       </snapshots>
     </repository>
     <repository>
-      <id>cib-seven-internal-repository</id>
-      <name>CIB Nexus</name>
-      <url>https://nexus.cib.de/repository/mvn-cib-seven</url>
+      <id>mvn-cibseven</id>
+      <name>CIB seven Private Repository</name>
+      <url>https://nexus.cib.de/repository/mvn-cibseven</url>
     </repository>
   </repositories>
 
