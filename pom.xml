@@ -2,14 +2,8 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
 
-  <parent>
-    <groupId>de.cib</groupId>
-    <artifactId>cib-release-parent</artifactId>
-    <version>1.0</version>
-  </parent>
-
-
-  <artifactId>cibseven-release-parent</artifactId>
+  <groupId>de.cibseven</groupId>
+  <artifactId>release-parent</artifactId>
   <version>1.0</version>
   <packaging>pom</packaging>
   <name>CIB seven - Release Parent Pom</name>
@@ -25,13 +19,40 @@
 
     <!-- we use Java 11 for our projects -->
     <version.java>11</version.java>
+    <version.ejb>3.1</version.ejb>
+    
+    <skip.cib.release>false</skip.cib.release>
+    <skip.central.release>false</skip.central.release>
+    <nexus.snapshot.repository.id>mvn-cibseven</nexus.snapshot.repository.id>
+    <nexus.snapshot.repository>https://nexus.cib.de/repository/mvn-cibseven-snapshot</nexus.snapshot.repository>
+    <nexus.release.repository.id>mvn-cibseven</nexus.release.repository.id>
+    <nexus.release.repository>https://nexus.cib.de/repository/mvn-cibseven-release</nexus.release.repository>
 
-    <plugin.version.license>3.0</plugin.version.license>
-    <plugin.version.nexus-staging>1.6.13</plugin.version.nexus-staging>
+    <nexus.staging.deploy.id>public</nexus.staging.deploy.id>
+    <nexus.staging.deploy.url>https://artifacts.cibseven.de</nexus.staging.deploy.url>
+    <nexus.sonatype.url>https://oss.sonatype.org</nexus.sonatype.url>
+    <gpg.useagent>true</gpg.useagent>
+    
+    <plugin.version.clean>3.1.0</plugin.version.clean>
+    <plugin.version.source>3.2.1</plugin.version.source>
     <plugin.version.compiler>3.6.2</plugin.version.compiler>
+    <!-- for compatibility reasons pinned to 2.6, since 3.0.0 introduced a change incompatible to this build script -->
+    <plugin.version.jar>2.6</plugin.version.jar>
     <plugin.version.javadoc>3.0.1</plugin.version.javadoc>
     <plugin.version.maven-bundle>4.1.0</plugin.version.maven-bundle>
 
+    <plugin.version.license>3.0</plugin.version.license>
+    
+    <plugin.version.deploy>2.8.2</plugin.version.deploy>
+    <plugin.version.assembly>3.3.0</plugin.version.assembly>
+    <plugin.version.ejb>3.1.0</plugin.version.ejb>
+    <plugin.version.war>3.3.2</plugin.version.war>
+    <plugin.version.ear>3.2.0</plugin.version.ear>
+    <plugin.version.rar>2.4</plugin.version.rar>
+    <plugin.version.gpg>3.0.1</plugin.version.gpg>
+    <plugin.version.release>2.5.3</plugin.version.release>
+    <plugin.version.nexus-staging>1.6.13</plugin.version.nexus-staging>
+    
     <license.inlineHeader>
 Copyright Camunda Services GmbH and/or licensed to Camunda Services GmbH
 under one or more contributor license agreements. See the NOTICE file
@@ -63,6 +84,143 @@ limitations under the License.</license.inlineHeader>
   <build>
     <pluginManagement>
       <plugins>
+      	<plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-clean-plugin</artifactId>
+          <version>${plugin.version.clean}</version>
+        </plugin>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-compiler-plugin</artifactId>
+          <version>${plugin.version.compiler}</version>
+          <configuration>
+            <source>${version.java}</source>
+            <target>${version.java}</target>
+            <release>${version.java}</release>
+          </configuration>
+        </plugin>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-jar-plugin</artifactId>
+          <version>${plugin.version.jar}</version>
+          <configuration>
+            <useDefaultManifestFile>true</useDefaultManifestFile>
+            <archive>
+              <!-- explicitly specify manifestFile because otherwise it overrides the generated one from bundle-plugin -->
+              <manifest>
+                <addDefaultImplementationEntries>true</addDefaultImplementationEntries>
+              </manifest>
+            </archive>
+          </configuration>
+        </plugin>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-war-plugin</artifactId>
+          <version>${plugin.version.war}</version>
+          <configuration>
+            <archive>
+              <manifest>
+                <addDefaultImplementationEntries>true</addDefaultImplementationEntries>
+              </manifest>
+            </archive>
+          </configuration>
+        </plugin>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-ejb-plugin</artifactId>
+          <version>${plugin.version.ejb}</version>
+          <configuration>
+            <ejbVersion>${version.ejb}</ejbVersion>
+            <archive>
+              <manifest>
+                <addDefaultImplementationEntries>true</addDefaultImplementationEntries>
+              </manifest>
+            </archive>
+          </configuration>
+        </plugin>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-rar-plugin</artifactId>
+          <version>${plugin.version.rar}</version>
+          <configuration>
+            <archive>
+              <manifest>
+                <addDefaultImplementationEntries>true</addDefaultImplementationEntries>
+              </manifest>
+            </archive>
+          </configuration>
+        </plugin>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-ear-plugin</artifactId>
+          <version>${plugin.version.ear}</version>
+          <configuration>
+            <archive>
+              <manifest>
+                <addDefaultImplementationEntries>true</addDefaultImplementationEntries>
+              </manifest>
+            </archive>
+          </configuration>
+        </plugin>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-assembly-plugin</artifactId>
+          <version>${plugin.version.assembly}</version>
+          <configuration>
+            <archive>
+              <manifest>
+                <addDefaultImplementationEntries>true</addDefaultImplementationEntries>
+              </manifest>
+            </archive>
+          </configuration>
+        </plugin>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-release-plugin</artifactId>
+          <version>${plugin.version.release}</version>
+          <configuration>
+            <mavenExecutorId>forked-path</mavenExecutorId>
+            <useReleaseProfile>false</useReleaseProfile>
+            <arguments>${arguments} -Psonatype-oss-release</arguments>
+          </configuration>
+        </plugin>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-deploy-plugin</artifactId>
+          <version>${plugin.version.deploy}</version>
+          <configuration>
+            <skip>true</skip>
+          </configuration>
+        </plugin>
+        <plugin>
+          <groupId>org.sonatype.plugins</groupId>
+          <artifactId>nexus-staging-maven-plugin</artifactId>
+          <version>${plugin.version.nexus-staging}</version>
+          <configuration>
+            <stagingProgressTimeoutMinutes>60</stagingProgressTimeoutMinutes>
+          </configuration>
+        </plugin>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-source-plugin</artifactId>
+          <version>${plugin.version.source}</version>
+        </plugin>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-javadoc-plugin</artifactId>
+          <version>${plugin.version.javadoc}</version>
+        </plugin>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-gpg-plugin</artifactId>
+          <version>${plugin.version.gpg}</version>
+        </plugin>
+        <plugin>
+          <groupId>org.apache.felix</groupId>
+          <artifactId>maven-bundle-plugin</artifactId>
+          <version>${plugin.version.maven-bundle}</version>
+          <extensions>true</extensions>
+        </plugin>
         <!-- define common configuration for license checks -->
         <!-- license plugin -->
         <plugin>
@@ -103,13 +261,6 @@ limitations under the License.</license.inlineHeader>
             </execution>
           </executions>
         </plugin>
-        <plugin>
-          <groupId>org.sonatype.plugins</groupId>
-          <artifactId>nexus-staging-maven-plugin</artifactId>
-          <configuration>
-            <stagingProgressTimeoutMinutes>60</stagingProgressTimeoutMinutes>
-          </configuration>
-        </plugin>
         <!-- third party license handling -->
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
@@ -124,14 +275,6 @@ limitations under the License.</license.inlineHeader>
             </transformers>
           </configuration>
         </plugin>
-        <plugin>
-          <groupId>org.apache.maven.plugins</groupId>
-          <artifactId>maven-compiler-plugin</artifactId>
-          <version>${plugin.version.compiler}</version>
-          <configuration>
-            <release>${version.java}</release>
-          </configuration>
-        </plugin>
       </plugins>
     </pluginManagement>
     
@@ -140,6 +283,27 @@ limitations under the License.</license.inlineHeader>
       non-Camunda dependencies and attach it as an artifact to the build.
       The license book generator uses these files to create the book. -->
     <plugins>
+      <plugin>
+        <groupId>org.sonatype.plugins</groupId>
+        <artifactId>nexus-staging-maven-plugin</artifactId>
+        <extensions>true</extensions>
+        <executions>
+          <execution>
+            <id>default-deploy</id>
+            <phase>deploy</phase>
+            <goals>
+              <goal>deploy</goal>
+            </goals>
+            <configuration>
+              <detectBuildFailures>true</detectBuildFailures>
+              <serverId>${nexus.staging.deploy.id}</serverId>
+              <nexusUrl>${nexus.staging.deploy.url}</nexusUrl>
+              <skipStaging>true</skipStaging>
+              <skipNexusStagingDeployMojo>${skip.cib.release}</skipNexusStagingDeployMojo>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-dependency-plugin</artifactId>
@@ -227,6 +391,149 @@ limitations under the License.</license.inlineHeader>
       </plugin>
     </plugins>
   </build>
+  
+  <distributionManagement>
+    <snapshotRepository>
+      <id>${nexus.snapshot.repository.id}</id>
+      <url>${nexus.snapshot.repository}</url>
+    </snapshotRepository>
+    <repository>
+      <id>${nexus.release.repository.id}</id>
+      <url>${nexus.release.repository}</url>
+    </repository>
+  </distributionManagement>
+  
+  <profiles>
+    <profile>
+      <id>override-snapshot-repository</id>
+      <activation>
+        <property>
+          <name>env.NEXUS_SNAPSHOT_REPOSITORY</name>
+        </property>
+      </activation>
+      <properties>
+        <nexus.snapshot.repository>${env.NEXUS_SNAPSHOT_REPOSITORY}</nexus.snapshot.repository>
+      </properties>
+    </profile>
+    <profile>
+      <id>override-snapshot-repository-id</id>
+      <activation>
+        <property>
+          <name>env.NEXUS_SNAPSHOT_REPOSITORY_ID</name>
+        </property>
+      </activation>
+      <properties>
+        <nexus.snapshot.repository.id>${env.NEXUS_SNAPSHOT_REPOSITORY_ID}</nexus.snapshot.repository.id>
+      </properties>
+    </profile>
+    <profile>
+      <id>override-release-repository</id>
+      <activation>
+        <property>
+          <name>env.NEXUS_RELEASE_REPOSITORY</name>
+        </property>
+      </activation>
+      <properties>
+        <nexus.release.repository>${env.NEXUS_RELEASE_REPOSITORY}</nexus.release.repository>
+      </properties>
+    </profile>
+    <profile>
+      <id>override-release-repository-id</id>
+      <activation>
+        <property>
+          <name>env.NEXUS_RELEASE_REPOSITORY_ID</name>
+        </property>
+      </activation>
+      <properties>
+        <nexus.release.repository.id>${env.NEXUS_RELEASE_REPOSITORY_ID}</nexus.release.repository.id>
+      </properties>
+    </profile>
+    <!-- activate this profile to release to maven central -->
+    <profile>
+      <id>sonatype-oss-release</id>
+      <build>
+        <plugins>
+          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-source-plugin</artifactId>
+            <version>${plugin.version.source}</version>
+            <executions>
+              <execution>
+                <id>attach-sources</id>
+                <phase>package</phase>
+                <goals>
+                  <goal>jar-no-fork</goal>
+                </goals>
+              </execution>
+              <execution>
+                <id>attach-test-sources</id>
+                <phase>package</phase>
+                <goals>
+                  <goal>test-jar-no-fork</goal>
+                </goals>
+              </execution>
+            </executions>
+          </plugin>
+          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-javadoc-plugin</artifactId>
+            <version>${plugin.version.javadoc}</version>
+            <configuration>
+              <quiet>true</quiet>
+            </configuration>
+            <executions>
+              <execution>
+                <id>attach-javadocs</id>
+                <goals>
+                  <goal>jar</goal>
+                </goals>
+              </execution>
+            </executions>
+          </plugin>
+          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-gpg-plugin</artifactId>
+            <version>${plugin.version.gpg}</version>
+            <configuration>
+              <passphrase>${gpg.passphrase}</passphrase>
+            </configuration>
+            <executions>
+              <execution>
+                <id>sign-artifacts</id>
+                <phase>verify</phase>
+                <goals>
+                  <goal>sign</goal>
+                </goals>
+              </execution>
+            </executions>
+          </plugin>
+          <plugin>
+            <groupId>org.sonatype.plugins</groupId>
+            <artifactId>nexus-staging-maven-plugin</artifactId>
+            <extensions>true</extensions>
+            <executions>
+              <execution>
+                <id>central-deploy</id>
+                <phase>deploy</phase>
+                <goals>
+                  <goal>deploy</goal>
+                </goals>
+                <configuration>
+                  <detectBuildFailures>true</detectBuildFailures>
+                  <keepStagingRepositoryOnFailure>true</keepStagingRepositoryOnFailure>
+                  <keepStagingRepositoryOnCloseRuleFailure>true</keepStagingRepositoryOnCloseRuleFailure>
+                  <serverId>central</serverId>
+                  <nexusUrl>${nexus.sonatype.url}</nexusUrl>
+                  <skipStaging>false</skipStaging>
+                  <skipNexusStagingDeployMojo>${skip.central.release}</skipNexusStagingDeployMojo>
+                </configuration>
+              </execution>
+            </executions>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+  </profiles>
 
   <licenses>
     <license>
@@ -239,6 +546,17 @@ limitations under the License.</license.inlineHeader>
     <name>CIB software GmbH</name>
     <url>https://www.cib.de/</url>
   </organization>
+  
+  <url>https://cibseven.de</url>
+  
+  <developers>
+    <developer>
+      <id>CIB seven</id>
+      <name>CIB seven Community</name>
+      <organization>cib.de</organization>
+      <organizationUrl>https://www.cib.de</organizationUrl>
+    </developer>
+  </developers>
 
   <scm>
     <url>https://github.com/cibseven/cibseven-release-parent</url>
@@ -262,8 +580,15 @@ limitations under the License.</license.inlineHeader>
       </snapshots>
     </repository>
     <repository>
+      <!-- Required for local builds by community users on master branch -->
+      <id>mvn-cibseven-public</id>
+      <name>CIB seven Public Repository</name>
+      <url>https://artifacts.cibseven.de/repository/public</url>
+    </repository>
+    <repository>
+      <!-- Required for local builds by developers on maintainance branches -->
       <id>mvn-cibseven</id>
-      <name>CIB seven Private Repository</name>
+      <name>CIB seven Private repository</name>
       <url>https://nexus.cib.de/repository/mvn-cibseven</url>
     </repository>
   </repositories>
