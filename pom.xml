@@ -25,8 +25,8 @@
     <skip.central.release>false</skip.central.release>
     <nexus.snapshot.repository.id>mvn-cibseven</nexus.snapshot.repository.id>
     <nexus.snapshot.repository>https://nexus.cib.de/repository/mvn-cibseven-snapshot</nexus.snapshot.repository>
-    <nexus.release.repository.id>mvn-cibseven</nexus.release.repository.id>
-    <nexus.release.repository>https://nexus.cib.de/repository/mvn-cibseven-release</nexus.release.repository>
+    <nexus.release.repository.id>mvn-cibseven-public</nexus.release.repository.id>
+    <nexus.release.repository>https://artifacts.cibseven.de/repository/public</nexus.release.repository>
 
     <nexus.staging.deploy.id>public</nexus.staging.deploy.id>
     <nexus.staging.deploy.url>https://artifacts.cibseven.de</nexus.staging.deploy.url>
