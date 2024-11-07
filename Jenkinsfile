@@ -103,7 +103,7 @@ pipeline {
                             mvn -DskipTests \
                                 org.cyclonedx:cyclonedx-maven-plugin:makeAggregateBom \
                                 ${COMMAND} \
-                                -Dnexus.release.repository.id=mvn-cibseven-release \
+                                -Dnexus.release.repository.id=mvn-cibseven-public \
                                 -Dnexus.release.repository=https://artifacts.cibseven.de/repository/public
                         """
                     }
