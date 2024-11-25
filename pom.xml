@@ -237,13 +237,13 @@ limitations under the License.</license.inlineHeader>
               <include>**/ProcessApplication.xsd</include>
             </includes>
             <excludes>
-              <exclude>**/org/camunda/bpm/engine/impl/calendar/CronExpression.java</exclude>
-              <exclude>**/org/camunda/bpm/engine/impl/juel/*.java</exclude>
-              <exclude>**/org/camunda/bpm/engine/impl/javax/el/*.java</exclude>
-              <exclude>**/org/camunda/bpm/engine/spring/components/**/*.java</exclude>
-              <exclude>**/org/camunda/bpm/engine/spring/annotations/*.java</exclude>
-              <exclude>**/org/camunda/bpm/engine/impl/digest/_apacheCommonsCodec/*.java</exclude>
-              <exclude>**/org/camunda/bpm/licensecheck/_apacheCommonsCodec/*.java</exclude>
+              <exclude>**/org/cibseven/bpm/engine/impl/calendar/CronExpression.java</exclude>
+              <exclude>**/org/cibseven/bpm/engine/impl/juel/*.java</exclude>
+              <exclude>**/org/cibseven/bpm/engine/impl/javax/el/*.java</exclude>
+              <exclude>**/org/cibseven/bpm/engine/spring/components/**/*.java</exclude>
+              <exclude>**/org/cibseven/bpm/engine/spring/annotations/*.java</exclude>
+              <exclude>**/org/cibseven/bpm/engine/impl/digest/_apacheCommonsCodec/*.java</exclude>
+              <exclude>**/org/cibseven/bpm/licensecheck/_apacheCommonsCodec/*.java</exclude>
               <exclude>**/node_modules/**</exclude>
               <exclude>.mvn/wrapper/MavenWrapperDownloader.java</exclude>
             </excludes>
@@ -319,7 +319,7 @@ limitations under the License.</license.inlineHeader>
               <skip>${skip-third-party-bom}</skip>
               <includeScope>test</includeScope><!-- Gives all dependencies; scopes filtering is applied in the ant step -->
               <sort>true</sort>
-              <excludeGroupIds>org.camunda</excludeGroupIds>
+              <excludeGroupIds>org.cibseven</excludeGroupIds>
               <outputFile>${project.build.directory}/dependencies/dependencies-generated.txt</outputFile>
             </configuration>
           </execution>
