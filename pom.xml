@@ -21,16 +21,17 @@
     <version.java>11</version.java>
     <version.ejb>3.1</version.ejb>
     
-    <skip.cib.release>false</skip.cib.release>
+    <skip.cibseven.release>false</skip.cibseven.release>
     <skip.central.release>false</skip.central.release>
+	
     <nexus.snapshot.repository.id>mvn-cibseven-snapshots</nexus.snapshot.repository.id>
     <nexus.snapshot.repository>https://artifacts.cibseven.de/repository/snapshots</nexus.snapshot.repository>
+	
     <nexus.release.repository.id>mvn-cibseven-public</nexus.release.repository.id>
     <nexus.release.repository>https://artifacts.cibseven.de/repository/public</nexus.release.repository>
 
-    <nexus.staging.deploy.id>public</nexus.staging.deploy.id>
-    <nexus.staging.deploy.url>https://artifacts.cibseven.de</nexus.staging.deploy.url>
-    <nexus.sonatype.url>https://oss.sonatype.org</nexus.sonatype.url>
+    <nexus.sonatype.url>https://central.sonatype.com</nexus.sonatype.url>
+	
     <gpg.useagent>true</gpg.useagent>
     
     <plugin.version.clean>3.1.0</plugin.version.clean>
@@ -51,7 +52,7 @@
     <plugin.version.rar>2.4</plugin.version.rar>
     <plugin.version.gpg>3.0.1</plugin.version.gpg>
     <plugin.version.release>2.5.3</plugin.version.release>
-    <plugin.version.nexus-staging>1.6.13</plugin.version.nexus-staging>
+    <plugin.version.central-publishing>0.6.0</plugin.version.central-publishing>
     
     <license.inlineHeader>
 Copyright Camunda Services GmbH and/or licensed to Camunda Services GmbH
@@ -189,15 +190,15 @@ limitations under the License.</license.inlineHeader>
           <artifactId>maven-deploy-plugin</artifactId>
           <version>${plugin.version.deploy}</version>
           <configuration>
-            <skip>true</skip>
+            <skip>${skip.cibseven.release}</skip>
           </configuration>
         </plugin>
         <plugin>
-          <groupId>org.sonatype.plugins</groupId>
-          <artifactId>nexus-staging-maven-plugin</artifactId>
-          <version>${plugin.version.nexus-staging}</version>
+          <groupId>org.sonatype.central</groupId>
+          <artifactId>central-publishing-maven-plugin</artifactId>
+          <version>${plugin.version.central-publishing}</version>
           <configuration>
-            <stagingProgressTimeoutMinutes>60</stagingProgressTimeoutMinutes>
+            <waitMaxTime>3600</waitMaxTime>
           </configuration>
         </plugin>
         <plugin>
@@ -283,27 +284,6 @@ limitations under the License.</license.inlineHeader>
       non-Camunda dependencies and attach it as an artifact to the build.
       The license book generator uses these files to create the book. -->
     <plugins>
-      <plugin>
-        <groupId>org.sonatype.plugins</groupId>
-        <artifactId>nexus-staging-maven-plugin</artifactId>
-        <extensions>true</extensions>
-        <executions>
-          <execution>
-            <id>default-deploy</id>
-            <phase>deploy</phase>
-            <goals>
-              <goal>deploy</goal>
-            </goals>
-            <configuration>
-              <detectBuildFailures>true</detectBuildFailures>
-              <serverId>${nexus.staging.deploy.id}</serverId>
-              <nexusUrl>${nexus.staging.deploy.url}</nexusUrl>
-              <skipStaging>true</skipStaging>
-              <skipNexusStagingDeployMojo>${skip.cib.release}</skipNexusStagingDeployMojo>
-            </configuration>
-          </execution>
-        </executions>
-      </plugin>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-dependency-plugin</artifactId>
@@ -479,7 +459,7 @@ limitations under the License.</license.inlineHeader>
             <artifactId>maven-javadoc-plugin</artifactId>
             <version>${plugin.version.javadoc}</version>
             <configuration>
-              <quiet>true</quiet>
+              <quiet>false</quiet>
             </configuration>
             <executions>
               <execution>
@@ -508,24 +488,22 @@ limitations under the License.</license.inlineHeader>
             </executions>
           </plugin>
           <plugin>
-            <groupId>org.sonatype.plugins</groupId>
-            <artifactId>nexus-staging-maven-plugin</artifactId>
+            <groupId>org.sonatype.central</groupId>
+            <artifactId>central-publishing-maven-plugin</artifactId>
             <extensions>true</extensions>
             <executions>
               <execution>
                 <id>central-deploy</id>
                 <phase>deploy</phase>
                 <goals>
-                  <goal>deploy</goal>
+                  <goal>publish</goal>
                 </goals>
                 <configuration>
-                  <detectBuildFailures>true</detectBuildFailures>
-                  <keepStagingRepositoryOnFailure>true</keepStagingRepositoryOnFailure>
-                  <keepStagingRepositoryOnCloseRuleFailure>true</keepStagingRepositoryOnCloseRuleFailure>
-                  <serverId>central</serverId>
-                  <nexusUrl>${nexus.sonatype.url}</nexusUrl>
-                  <skipStaging>false</skipStaging>
-                  <skipNexusStagingDeployMojo>${skip.central.release}</skipNexusStagingDeployMojo>
+                  <deploymentName>${project.groupId}:${project.artifactId}:${project.version}</deploymentName>
+                  <failOnBuildFailure>true</failOnBuildFailure>
+                  <publishingServerId>central</publishingServerId>
+                  <centralBaseUrl>${nexus.sonatype.url}</centralBaseUrl>
+                  <skipPublishing>${skip.central.release}</skipPublishing>
                 </configuration>
               </execution>
             </executions>
@@ -543,18 +521,18 @@ limitations under the License.</license.inlineHeader>
   </licenses>
 
   <organization>
-    <name>CIB software GmbH</name>
-    <url>https://www.cib.de/</url>
+    <name>CIB seven</name>
+    <url>https://cibseven.org</url>
   </organization>
   
-  <url>https://cibseven.de</url>
+  <url>https://cibseven.org</url>
   
   <developers>
     <developer>
       <id>CIB seven</id>
       <name>CIB seven Community</name>
-      <organization>cib.de</organization>
-      <organizationUrl>https://www.cib.de</organizationUrl>
+      <organization>CIB seven</organization>
+      <organizationUrl>https://cibseven.org</organizationUrl>
     </developer>
   </developers>
 
@@ -567,7 +545,7 @@ limitations under the License.</license.inlineHeader>
 
   <issueManagement>
     <system>GitHub Issues</system>
-    <url>https://github.com/cibseven/cibseven/issues</url>
+    <url>https://github.com/cibseven/cibseven-release-parent/issues</url>
   </issueManagement>
 
   <repositories>
