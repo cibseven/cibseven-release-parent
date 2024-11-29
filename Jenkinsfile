@@ -75,9 +75,6 @@ pipeline {
                     }
 
                     mavenProjectInformation = new MavenProjectInformation(groupId, pom.artifactId, pom.version, pom.name, pom.description)
-                    if (mavenProjectInformation.version.endsWith("-SNAPSHOT")) {
-                        error("Version should not contain -SNAPSHOT postfix; actual value: ${mavenProjectInformation.version}")
-                    }
 
                     log.info "Build Project: ${mavenProjectInformation.groupId}:${mavenProjectInformation.artifactId}, ${mavenProjectInformation.name} with version ${mavenProjectInformation.version}"
 
