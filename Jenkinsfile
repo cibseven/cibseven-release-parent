@@ -90,19 +90,30 @@ pipeline {
         stage('Build and Deploy') {
             steps {
                 script {
-                    withMaven(options: [artifactsPublisher(archiveFilesDisabled: false)]) {
+                    withMaven(options: []) {
                         def COMMAND = "package"
                         if (params.DEPLOY == true) {
                             COMMAND = "deploy"
                         }
 
-                        sh """
-                            mvn -DskipTests \
-                                org.cyclonedx:cyclonedx-maven-plugin:makeAggregateBom \
-                                ${COMMAND} \
-                                -Dnexus.release.repository.id=mvn-cibseven-public \
-                                -Dnexus.release.repository=https://artifacts.cibseven.org/repository/public
-                        """
+                        if (isPatchVersion()) {
+                            sh """
+                                mvn -DskipTests \
+                                    org.cyclonedx:cyclonedx-maven-plugin:makeAggregateBom \
+                                    ${COMMAND} \
+                                    -Dnexus.release.repository.id=mvn-cibseven-private \
+                                    -Dnexus.release.repository=https://artifacts.cibseven.org/repository/private
+                            """
+                        }
+                        else {
+                            sh """
+                                mvn -DskipTests \
+                                    org.cyclonedx:cyclonedx-maven-plugin:makeAggregateBom \
+                                    ${COMMAND} \
+                                    -Dnexus.release.repository.id=mvn-cibseven-public \
+                                    -Dnexus.release.repository=https://artifacts.cibseven.org/repository/public
+                            """
+                        }
                     }
                 }
             }
@@ -158,4 +169,16 @@ pipeline {
             }
         }
     }
+}
+
+// - "1.2.0" -> no
+// - "1.2.0-SNAPSHOT" -> no
+// - "1.2.3" -> yes
+// - "1.2.3-SNAPSHOT" -> yes
+def isPatchVersion() {
+    List version = mavenProjectInformation.version.tokenize('.')
+    if (version.size() < 3) {
+        return fasle
+    }
+    return version[2].tokenize('-')[0] != "0"
 }

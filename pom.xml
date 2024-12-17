@@ -4,7 +4,7 @@
 
   <groupId>org.cibseven</groupId>
   <artifactId>release-parent</artifactId>
-  <version>1.1.0-SNAPSHOT</version>
+  <version>1.1.1</version>
   <packaging>pom</packaging>
   <name>CIB seven - Release Parent Pom</name>
 
@@ -553,31 +553,50 @@ limitations under the License.</license.inlineHeader>
       <id>maven-central</id>
       <name>Maven Central</name>
       <url>https://repo1.maven.org/maven2</url>
+      <releases>
+        <enabled>true</enabled>
+      </releases>
       <snapshots>
         <enabled>false</enabled>
       </snapshots>
     </repository>
+
     <repository>
-      <!-- Required for local builds by community users on master branch -->
       <id>mvn-cibseven-public</id>
       <name>CIB seven Public Repository</name>
       <url>https://artifacts.cibseven.org/repository/public</url>
-	  <snapshots>
+      <releases>
+        <enabled>true</enabled>
+      </releases>
+	    <snapshots>
         <enabled>false</enabled>
       </snapshots>
     </repository>
+
     <repository>
-      <!-- Required for local builds by developers on maintainance branches -->
       <id>mvn-cibseven-snapshots</id>
       <name>CIB seven Snapshots repository</name>
       <url>https://artifacts.cibseven.org/repository/snapshots</url>
-	  <releases>
+	    <releases>
         <enabled>false</enabled>
       </releases>
-	  <snapshots>
+  	  <snapshots>
         <enabled>true</enabled>
       </snapshots>
     </repository>
+
+    <repository>
+      <id>mvn-cibseven-private</id>
+      <name>CIB seven Private Repository</name>
+      <url>https://artifacts.cibseven.org/repository/private</url>
+      <releases>
+        <enabled>true</enabled>
+      </releases>
+	    <snapshots>
+        <enabled>false</enabled>
+      </snapshots>
+    </repository>
+
   </repositories>
 
 </project>
