@@ -175,10 +175,12 @@ pipeline {
 // - "1.2.0-SNAPSHOT" -> no
 // - "1.2.3" -> yes
 // - "1.2.3-SNAPSHOT" -> yes
+// - "7.22.0-cibseven" -> no
+// - "7.22.1-cibseven" -> yes
 def isPatchVersion() {
     List version = mavenProjectInformation.version.tokenize('.')
     if (version.size() < 3) {
-        return fasle
+        return false
     }
     return version[2].tokenize('-')[0] != "0"
 }
