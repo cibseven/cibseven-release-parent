@@ -11,7 +11,6 @@ import groovy.transform.Field
 
 @Field Logger log = new Logger(this)
 @Field MavenProjectInformation mavenProjectInformation = null
-@Field List<String> helmChartPaths = []
 @Field Map pipelineParams = [
     pom: ConstantsInternal.DEFAULT_MAVEN_POM_PATH,
     mvnContainerName: Constants.MAVEN_JDK_17_CONTAINER,
@@ -24,9 +23,6 @@ pipeline {
         kubernetes {
             yaml BuildPodCreator.cibStandardPod()
                     .withContainerFromName(pipelineParams.mvnContainerName)
-                    .withHelm3Container()
-                    .withKanikoContainer()
-                    .withSyftContainer()
                     .asYaml()
             defaultContainer pipelineParams.mvnContainerName
         }
@@ -35,9 +31,19 @@ pipeline {
     // Parameter that can be changed in the Jenkins UI
     parameters {
         booleanParam(
-            name: 'DEPLOY',
+            name: 'INSTALL',
+            defaultValue: true,
+            description: 'Build and test'
+        )
+        booleanParam(
+            name: 'DEPLOY_TO_ARTIFACTS',
             defaultValue: false,
-            description: 'Deploy release artifacts to artifacts.cibseven.org'
+            description: 'Deploy artifacts to artifacts.cibseven.org'
+        )
+        booleanParam(
+            name: 'DEPLOY_TO_MAVEN_CENTRAL',
+            defaultValue: false,
+            description: 'Deploy artifacts to Maven Central'
         )
     }
 
@@ -87,22 +93,61 @@ pipeline {
             }
         }
 
-        stage('Build and Deploy') {
+        stage('Maven install') {
+            when {
+                expression { params.INSTALL == true }
+            }
             steps {
                 script {
-                    withMaven(options: [artifactsPublisher(archiveFilesDisabled: false)]) {
-                        def COMMAND = "package"
-                        if (params.DEPLOY == true) {
-                            COMMAND = "deploy"
-                        }
+                    withMaven(options: [junitPublisher(disabled: false), jacocoPublisher(disabled: false)]) {
+                        sh "mvn -T4 -Dbuild.number=${BUILD_NUMBER} install"
+                    }
 
-                        sh """
-                            mvn -DskipTests \
-                                org.cyclonedx:cyclonedx-maven-plugin:makeAggregateBom \
-                                ${COMMAND} \
-                                -Dnexus.release.repository.id=mvn-cibseven-public \
-                                -Dnexus.release.repository=https://artifacts.cibseven.org/repository/public
-                        """
+                    junit allowEmptyResults: true, testResults: ConstantsInternal.MAVEN_TEST_RESULTS
+                }
+            }
+        }
+
+        stage('Deploy to artifacts.cibseven.org') {
+            when {
+                allOf {
+                    expression { params.DEPLOY_TO_ARTIFACTS }
+                    expression { !params.DEPLOY_TO_MAVEN_CENTRAL }
+                }
+            }
+            steps {
+                script {
+                    withMaven(options: []) {
+                        sh "mvn -T4 -U -DskipTests clean deploy"
+                    }
+                }
+            }
+        }
+        
+        stage('Deploy to Maven Central') {
+            when {
+                allOf {
+                    expression { params.DEPLOY_TO_MAVEN_CENTRAL }
+                    expression { mavenProjectInformation.version.endsWith("-SNAPSHOT") == false }
+                }
+            }
+            steps {
+                script {
+                    withMaven(options: []) {
+                        withCredentials([file(credentialsId: 'credential-cibseven-gpg-private-key', variable: 'GPG_KEY_FILE'), string(credentialsId: 'credential-cibseven-gpg-passphrase', variable: 'GPG_KEY_PASS')]) {
+                            sh "gpg --batch --import ${GPG_KEY_FILE}"
+    
+                            def GPG_KEYNAME = sh(script: "gpg --list-keys --with-colons | grep pub | cut -d: -f5", returnStdout: true).trim()
+
+                            sh """
+                                mvn -T4 -U \
+                                    -Dgpg.keyname="${GPG_KEYNAME}" \
+                                    -Dgpg.passphrase="${GPG_KEY_PASS}" \
+                                    clean deploy \
+                                    -Psonatype-oss-release \
+                                    -Dskip.cibseven.release="${!params.DEPLOY_TO_ARTIFACTS}"
+                            """
+                        }
                     }
                 }
             }
