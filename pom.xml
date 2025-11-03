@@ -30,6 +30,12 @@
     <nexus.release.repository.id>mvn-cibseven-public</nexus.release.repository.id>
     <nexus.release.repository>https://artifacts.cibseven.org/repository/public</nexus.release.repository>
 
+    <nexus.community-snapshot.repository.id>mvn-cibseven-community-snapshots</nexus.community-snapshot.repository.id>
+    <nexus.community-snapshot.repository>https://artifacts.cibseven.org/repository/community-snapshots</nexus.community-snapshot.repository>
+	
+    <nexus.community-release.repository.id>mvn-cibseven-community</nexus.community-release.repository.id>
+    <nexus.community-release.repository>https://artifacts.cibseven.org/repository/community</nexus.community-release.repository>
+
     <nexus.sonatype.url>https://central.sonatype.com</nexus.sonatype.url>
 	
     <gpg.useagent>true</gpg.useagent>
@@ -428,6 +434,21 @@ limitations under the License.</license.inlineHeader>
       </activation>
       <properties>
         <nexus.release.repository.id>${env.NEXUS_RELEASE_REPOSITORY_ID}</nexus.release.repository.id>
+      </properties>
+    </profile>
+    <!-- activate this profile for Community deployment to nexus -->
+    <profile>
+      <id>override-with-community-repositories</id>
+      <activation>
+        <property>
+          <name>Community</name>
+        </property>
+      </activation>
+      <properties>
+        <nexus.snapshot.repository.id>${nexus.community-snapshot.repository.id}</nexus.snapshot.repository.id>
+        <nexus.snapshot.repository>${nexus.community-snapshot.repository}</nexus.snapshot.repository>
+        <nexus.release.repository.id>${nexus.community-release.repository.id}</nexus.release.repository.id>
+        <nexus.release.repository>${nexus.community-release.repository}</nexus.release.repository>
       </properties>
     </profile>
     <!-- activate this profile to release to maven central -->
