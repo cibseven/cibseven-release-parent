@@ -1,6 +1,7 @@
 # cibseven-release-parent
 
 [![License](https://img.shields.io/github/license/cibseven/cibseven?color=blue&logo=apache)](https://github.com/cibseven/cibseven-release-parent/blob/master/LICENSE)
+[![Maven Central](https://img.shields.io/maven-central/v/org.cibseven/release-parent.svg?label=Maven%20Central)](https://central.sonatype.com/artifact/org.cibseven/release-parent)
 [![Discussions](https://img.shields.io/badge/discussions-cibseven-green)](https://github.com/orgs/cibseven/discussions)
 
 Pom file which can be inherited for CIB seven releases defining some bpm release properties.
@@ -15,7 +16,7 @@ Alternatively, you can pull it from the central Maven repositories:
 <dependency>
   <groupId>org.cibseven</groupId>
   <artifactId>release-parent</artifactId>
-  <version>1.1.0</version>
+  <version>1.4.0</version>
 </dependency>
 ```
 
