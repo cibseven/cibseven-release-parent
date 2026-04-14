@@ -4,7 +4,7 @@
 
   <groupId>org.cibseven</groupId>
   <artifactId>release-parent</artifactId>
-  <version>1.4.0-SNAPSHOT</version>
+  <version>1.4.0</version>
   <packaging>pom</packaging>
   <name>CIB seven - Release Parent Pom</name>
 
@@ -20,33 +20,33 @@
     <!-- we use Java 11 for our projects -->
     <version.java>11</version.java>
     <version.ejb>3.1</version.ejb>
-    
+
     <skip.cibseven.release>false</skip.cibseven.release>
     <skip.central.release>false</skip.central.release>
-	
+
     <nexus.snapshot.repository.id>mvn-cibseven-snapshots</nexus.snapshot.repository.id>
     <nexus.snapshot.repository>https://artifacts.cibseven.org/repository/snapshots</nexus.snapshot.repository>
-	
+
     <nexus.release.repository.id>mvn-cibseven-public</nexus.release.repository.id>
     <nexus.release.repository>https://artifacts.cibseven.org/repository/public</nexus.release.repository>
 
     <nexus.sonatype.url>https://central.sonatype.com</nexus.sonatype.url>
     <plugin.version.cyclonedx>2.7.10</plugin.version.cyclonedx>
-	
+
     <gpg.useagent>true</gpg.useagent>
-    
+
     <plugin.version.clean>3.1.0</plugin.version.clean>
     <plugin.version.source>3.2.1</plugin.version.source>
     <plugin.version.compiler>3.6.2</plugin.version.compiler>
     <!-- for compatibility reasons pinned to 2.6, since 3.0.0 introduced a change incompatible to this build script -->
     <plugin.version.jar>2.6</plugin.version.jar>
     <plugin.version.maven-bundle>4.1.0</plugin.version.maven-bundle>
-    
+
     <plugin.version.javadoc>3.0.1</plugin.version.javadoc>
     <swagger-annotations.version>2.2.36</swagger-annotations.version>
 
     <plugin.version.license>3.0</plugin.version.license>
-    
+
     <plugin.version.deploy>2.8.2</plugin.version.deploy>
     <plugin.version.assembly>3.3.0</plugin.version.assembly>
     <plugin.version.ejb>3.1.0</plugin.version.ejb>
@@ -56,7 +56,7 @@
     <plugin.version.gpg>3.0.1</plugin.version.gpg>
     <plugin.version.release>2.5.3</plugin.version.release>
     <plugin.version.central-publishing>0.6.0</plugin.version.central-publishing>
-    
+
     <license.inlineHeader>
 Copyright CIB software GmbH and/or licensed to CIB software GmbH
 under one or more contributor license agreements. See the NOTICE file
@@ -75,9 +75,9 @@ limitations under the License.</license.inlineHeader>
 
     <!-- Properties for license book generation -->
     <!-- These properties can be overridden by inheriting modules
-      to generate a list of dependencies (called BOM here) 
+      to generate a list of dependencies (called BOM here)
       and attach it as a Maven artifact -->
-      
+
     <!-- set to false to generate a third party dependency bom -->
     <skip-third-party-bom>true</skip-third-party-bom>
     <!-- set the Maven scopes that should be included in the dependency bom.
@@ -302,9 +302,9 @@ limitations under the License.</license.inlineHeader>
         </plugin>
       </plugins>
     </pluginManagement>
-    
+
     <!-- Plugins used in the context of creating a license book. -->
-    <!-- If activated (see properties), these plugins create a list of 
+    <!-- If activated (see properties), these plugins create a list of
       non-Camunda dependencies and attach it as an artifact to the build.
       The license book generator uses these files to create the book. -->
     <plugins>
@@ -395,7 +395,7 @@ limitations under the License.</license.inlineHeader>
       </plugin>
     </plugins>
   </build>
-  
+
   <distributionManagement>
     <snapshotRepository>
       <id>${nexus.snapshot.repository.id}</id>
@@ -406,7 +406,7 @@ limitations under the License.</license.inlineHeader>
       <url>${nexus.release.repository}</url>
     </repository>
   </distributionManagement>
-  
+
   <profiles>
     <profile>
       <id>override-snapshot-repository</id>
@@ -548,9 +548,9 @@ limitations under the License.</license.inlineHeader>
     <name>CIB seven</name>
     <url>https://cibseven.org</url>
   </organization>
-  
+
   <url>https://cibseven.org</url>
-  
+
   <developers>
     <developer>
       <id>CIB seven</id>
@@ -586,7 +586,7 @@ limitations under the License.</license.inlineHeader>
       <id>mvn-cibseven-public</id>
       <name>CIB seven Public Repository</name>
       <url>https://artifacts.cibseven.org/repository/public</url>
-	  <snapshots>
+    <snapshots>
         <enabled>false</enabled>
       </snapshots>
     </repository>
@@ -595,10 +595,10 @@ limitations under the License.</license.inlineHeader>
       <id>mvn-cibseven-snapshots</id>
       <name>CIB seven Snapshots repository</name>
       <url>https://artifacts.cibseven.org/repository/snapshots</url>
-	  <releases>
+    <releases>
         <enabled>false</enabled>
       </releases>
-	  <snapshots>
+    <snapshots>
         <enabled>true</enabled>
       </snapshots>
     </repository>
