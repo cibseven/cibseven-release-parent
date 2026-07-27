@@ -204,27 +204,11 @@ limitations under the License.</license.inlineHeader>
             <waitMaxTime>3600</waitMaxTime>
           </configuration>
         </plugin>
-				<plugin>
-					<groupId>org.cyclonedx</groupId>
-					<artifactId>cyclonedx-maven-plugin</artifactId>
-					<version>${plugin.version.cyclonedx}</version>
-					<executions>
-						<execution>
-							<phase>package</phase>
-							<goals>
-								<goal>makeAggregateBom</goal>
-							</goals>
-						</execution>
-					</executions>
-					<configuration>
-						<includeCompileScope>true</includeCompileScope>
-						<includeProvidedScope>true</includeProvidedScope>
-						<includeRuntimeScope>true</includeRuntimeScope>
-						<includeSystemScope>true</includeSystemScope>
-						<includeTestScope>false</includeTestScope>
-						<includeLicenseText>false</includeLicenseText>
-					</configuration>
-				</plugin>
+        <plugin>
+          <groupId>org.cyclonedx</groupId>
+          <artifactId>cyclonedx-maven-plugin</artifactId>
+          <version>${plugin.version.cyclonedx}</version>
+        </plugin>
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-source-plugin</artifactId>
