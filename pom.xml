@@ -31,10 +31,10 @@
     <nexus.release.repository>https://artifacts.cibseven.org/repository/public</nexus.release.repository>
 
     <nexus.sonatype.url>https://central.sonatype.com</nexus.sonatype.url>
-    <plugin.version.cyclonedx>2.7.10</plugin.version.cyclonedx>
 
     <gpg.useagent>true</gpg.useagent>
 
+    <plugin.version.cyclonedx>2.9.2</plugin.version.cyclonedx>
     <plugin.version.clean>3.1.0</plugin.version.clean>
     <plugin.version.source>3.2.1</plugin.version.source>
     <plugin.version.compiler>3.6.2</plugin.version.compiler>
