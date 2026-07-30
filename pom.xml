@@ -55,7 +55,7 @@
     <plugin.version.rar>2.4</plugin.version.rar>
     <plugin.version.gpg>3.0.1</plugin.version.gpg>
     <plugin.version.release>2.5.3</plugin.version.release>
-    <plugin.version.central-publishing>0.6.0</plugin.version.central-publishing>
+    <plugin.version.central-publishing>0.11.0</plugin.version.central-publishing>
 
     <license.inlineHeader>
 Copyright CIB software GmbH and/or licensed to CIB software GmbH
