@@ -43,7 +43,7 @@
     <plugin.version.maven-bundle>4.1.0</plugin.version.maven-bundle>
 
     <plugin.version.javadoc>3.0.1</plugin.version.javadoc>
-    <swagger-annotations.version>2.2.36</swagger-annotations.version>
+    <swagger-annotations.version>2.2.55</swagger-annotations.version>
 
     <plugin.version.license>3.0</plugin.version.license>
 
